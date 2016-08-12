@@ -23,8 +23,17 @@ namespace APOD
     /// </summary>
     public sealed partial class ItemDetailPage : Page
     {
+        private ImageManager imageManager;
         private NavigationHelper navigationHelper;
         private ObservableDictionary apodViewModel = new ObservableDictionary();
+
+        /// <summary>
+        /// ImageManager is used on this page to save and image as a background image         
+        /// </summary>
+        public ImageManager ImageManager
+        {
+            get { return this.imageManager; }
+        }
 
         /// <summary>
         /// NavigationHelper is used on each page to aid in navigation and 
@@ -47,7 +56,7 @@ namespace APOD
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
-            this.navigationHelper.LoadState += navigationHelper_LoadState;
+            this.navigationHelper.LoadState += navigationHelper_LoadState;            
         }
 
         /// <summary>
@@ -66,6 +75,7 @@ namespace APOD
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
             var item = await ApodDataSource.GetItemAsync((String)e.NavigationParameter);
             this.ApodViewModel["Item"] = item;
+            this.imageManager = new ImageManager(item);
         }
 
         #region NavigationHelper registration
