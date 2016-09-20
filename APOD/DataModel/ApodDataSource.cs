@@ -22,56 +22,6 @@ using Newtonsoft.Json;
 namespace APOD.DataModel
 {
     /// <summary>
-    /// Apod item data model.
-    /// </summary>
-    public class ApodDataItem
-    {
-        public ApodDataItem(String uniqueId, String title, String imagePath, String content)
-        {
-            this.UniqueId = uniqueId;
-            this.Title = title;                        
-            this.ImagePath = imagePath;
-            this.Content = content;
-        }
-
-        public string UniqueId { get; private set; }
-        public string Title { get; private set; }                
-        public string ImagePath { get; private set; }
-        public string Content { get; private set; }
-
-        public override string ToString()
-        {
-            return this.Title;
-        }
-    }
-
-    /// <summary>
-    /// Apod group data model.
-    /// </summary>
-    public class ApodDataGroup
-    {
-        public ApodDataGroup(String uniqueId, String title, String imagePath, String description)
-        {
-            this.UniqueId = uniqueId;
-            this.Title = title;            
-            this.Description = description;
-            this.ImagePath = imagePath;
-            this.Items = new ObservableCollection<ApodDataItem>();
-        }
-
-        public string UniqueId { get; private set; }
-        public string Title { get; private set; }        
-        public string Description { get; private set; }
-        public string ImagePath { get; private set; }
-        public ObservableCollection<ApodDataItem> Items { get; private set; }
-
-        public override string ToString()
-        {
-            return this.Title;
-        }
-    }
-
-    /// <summary>
     /// Creates a collection of groups and items with content read NASA's public API Atronomy Photo of the Day.
     /// ApodDataSource initializes with data read from the API.        
     /// </summary>
@@ -139,9 +89,15 @@ namespace APOD.DataModel
                 var responseBodyAsText = await _response.Content.ReadAsStringAsync();
 
                 var nasaApod = JsonConvert.DeserializeObject<NasaApodResponse>(responseBodyAsText);
-
-                group.Items.Add(new ApodDataItem(nasaApod.Title, nasaApod.Title, nasaApod.ImagePath, nasaApod.Content));
-                                              
+                group.Items.Add(new ApodDataItem(nasaApod.Title, nasaApod.Title, nasaApod.ImagePath, nasaApod.Content, nasaApod.MediaType)); 
+                
+                //if (nasaApod.MediaType != "image")
+                //{
+                //    string html = @"<iframe width=""800"" height=""480"" src="""+nasaApod.ImagePath +@"""" +@" frameborder=""0"" allowfullscreen></iframe>";
+                //    nasaApod.ImagePath = html;
+                    
+                //    group.Items.Add(new ApodDataItem(nasaApod.Title, nasaApod.Title, nasaApod.ImagePath, nasaApod.Content, nasaApod.MediaType));    
+                //}                
             }
             this.Groups.Add(group);
         }

@@ -107,6 +107,8 @@
     </Compile>
     <Compile Include="Common\ImageManager.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="DataModel\ApodDataGroup.cs" />
+    <Compile Include="DataModel\ApodDataItem.cs" />
     <Compile Include="DataModel\NasaApodResponse.cs" />
     <Compile Include="GroupedItemsPage.xaml.cs">
       <DependentUpon>GroupedItemsPage.xaml</DependentUpon>
